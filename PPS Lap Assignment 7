@@ -1,0 +1,54 @@
+#include <stdio.h>
+
+struct Employee {
+    int id;
+    char name[50];
+    float basicSalary;
+    float hra;
+    float tra;
+    float grossSalary;
+};
+
+int main() {
+    int n, i;
+
+    printf("Enter the number of employees: ");
+    scanf("%d", &n);
+
+    struct Employee emp[n];
+
+    for (i = 0; i < n; i++) {
+        printf("\n--- Enter details for Employee %d ---\n", i + 1);
+        
+        printf("Employee ID: ");
+        scanf("%d", &emp[i].id);
+        
+        printf("Employee Name: ");
+        scanf(" %[^\n]", emp[i].name); // Reads full name including spaces
+        
+        printf("Basic Salary: ");
+        scanf("%f", &emp[i].basicSalary);
+
+        emp[i].hra = 0.20 * emp[i].basicSalary;
+        emp[i].tra = 0.10 * emp[i].basicSalary;
+        emp[i].grossSalary = emp[i].basicSalary + emp[i].hra + emp[i].tra;
+    }
+
+    printf("\n=================================================================================\n");
+    printf("%-8s %-20s %-14s %-12s %-12s %-14s\n", 
+           "ID", "Name", "Basic Salary", "HRA (20%)", "TRA (10%)", "Gross Salary");
+    printf("=================================================================================\n");
+
+    for (i = 0; i < n; i++) {
+        printf("%-8d %-20s %-14.2f %-12.2f %-12.2f %-14.2f\n",
+               emp[i].id,
+               emp[i].name,
+               emp[i].basicSalary,
+               emp[i].hra,
+               emp[i].tra,
+               emp[i].grossSalary);
+    }
+    printf("=================================================================================\n");
+
+    return 0;
+}
