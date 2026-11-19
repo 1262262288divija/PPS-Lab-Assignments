@@ -1,0 +1,117 @@
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
+
+void trimNewline(char str[]) {
+    size_t len = strlen(str);
+    if (len > 0 && str[len - 1] == '\n') {
+        str[len - 1] = '\0';
+    }
+}
+
+void reverseString(char str[]) {
+    int left = 0;
+    int right = strlen(str) - 1;
+    while (left < right) {
+        char temp = str[left];
+        str[left] = str[right];
+        str[right] = temp;
+        left++;
+        right--;
+    }
+}
+
+int main() {
+    char str1[200], str2[100], temp[200];
+    int choice;
+
+    printf("Enter the first string: ");
+    fgets(str1, sizeof(str1), stdin);
+    trimNewline(str1);
+
+    printf("Enter the second string: ");
+    fgets(str2, sizeof(str2), stdin);
+    trimNewline(str2);
+
+    do {
+        printf("\n--- String Operations Menu ---\n");
+        printf("1. Find Length (strlen)\n");
+        printf("2. Copy String (strcpy)\n");
+        printf("3. Concatenate Strings (strcat)\n");
+        printf("4. Compare Strings (strcmp)\n");
+        printf("5. Reverse First String\n");
+        printf("6. Convert to Uppercase\n");
+        printf("7. Convert to Lowercase\n");
+        printf("8. Search Substring (strstr)\n");
+        printf("0. Exit\n");
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+
+        switch (choice) {
+            case 1:
+                printf("Length of String 1: %zu\n", strlen(str1));
+                printf("Length of String 2: %zu\n", strlen(str2));
+                break;
+
+            case 2:
+                strcpy(temp, str1);
+                printf("Copied String 1 into temporary buffer: %s\n", temp);
+                break;
+
+            case 3:
+                strcpy(temp, str1); // Copy first to preserve original str1
+                strcat(temp, str2);
+                printf("Concatenated String: %s\n", temp);
+                break;
+
+            case 4: {
+                int res = strcmp(str1, str2);
+                if (res == 0)
+                    printf("Both strings are equal.\n");
+                else if (res < 0)
+                    printf("String 1 is lexicographically smaller than String 2.\n");
+                else
+                    printf("String 1 is lexicographically greater than String 2.\n");
+                break;
+            }
+
+            case 5:
+                strcpy(temp, str1);
+                reverseString(temp);
+                printf("Reversed String 1: %s\n", temp);
+                break;
+
+            case 6:
+                strcpy(temp, str1);
+                for (int i = 0; temp[i] != '\0'; i++) {
+                    temp[i] = toupper((unsigned char)temp[i]);
+                }
+                printf("Uppercase String 1: %s\n", temp);
+                break;
+
+            case 7:
+                strcpy(temp, str1);
+                for (int i = 0; temp[i] != '\0'; i++) {
+                    temp[i] = tolower((unsigned char)temp[i]);
+                }
+                printf("Lowercase String 1: %s\n", temp);
+                break;
+
+            case 8:
+                if (strstr(str1, str2) != NULL)
+                    printf("'%s' was found inside '%s'.\n", str2, str1);
+                else
+                    printf("'%s' was NOT found inside '%s'.\n", str2, str1);
+                break;
+
+            case 0:
+                printf("Exiting program.\n");
+                break;
+
+            default:
+                printf("Invalid choice. Please try again.\n");
+        }
+    } while (choice != 0);
+
+    return 0;
+}
